@@ -27,12 +27,12 @@ public class PoissionDiscSampling : MonoBehaviour
             {
                 TileInformation newTile = new TileInformation();
                 RaycastHit hit = new RaycastHit();
-                float minX = (-(range.x / 2) + x) * tileSize;
-                float minZ = (-(range.y / 2) + z) * tileSize;
-                newTile.minPos = new Vector3(minX, 0, minZ);
+                float minX = (-(range.x / 2) + x) * tileSize + transform.position.x;
+                float minZ = (-(range.y / 2) + z) * tileSize + transform.position.z;
+                newTile.minPos = new Vector3(minX, transform.position.y, minZ);
                 if (Physics.Raycast(newTile.minPos, Vector3.down, out hit, Mathf.Infinity))
                     newTile.minPos.y = hit.point.y;
-                newTile.maxpos = new Vector3(minX + tileSize, 0, minZ + tileSize);
+                newTile.maxpos = new Vector3(minX + tileSize, transform.position.y, minZ + tileSize);
                 if (Physics.Raycast(newTile.maxpos, Vector3.down, out hit, Mathf.Infinity))
                     newTile.maxpos.y = hit.point.y;
                 tiles.Add(newTile);
@@ -121,7 +121,7 @@ public class PoissionDiscSampling : MonoBehaviour
             Gizmos.DrawLine(tile.minPos, tile.maxpos);
             Gizmos.DrawWireCube(Vector3.Lerp(tile.minPos, tile.maxpos, 0.5f), new Vector3(tileSize, 0, tileSize));
         }
-        Gizmos.DrawWireCube(new Vector3(tileSize / 2, 0, tileSize / 2), new Vector3(range.x * tileSize, 1, range.y * tileSize));
+        Gizmos.DrawWireCube(transform.position + new Vector3(tileSize / 2, 0, tileSize / 2), new Vector3(range.x * tileSize, 1, range.y * tileSize));
     }
 
     public class TileInformation
