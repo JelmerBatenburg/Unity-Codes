@@ -73,8 +73,8 @@ public class PoissionDiscSampling : MonoBehaviour
                 if (currentTries >= 0)
                 {
                     GameObject g = Instantiate(placeableObjects[Random.Range(0, placeableObjects.Length)], placeSpot, Quaternion.identity, transform);
-                    availableTiles[index].spawnedObject = g;
-                    currentPos = g.transform.position;
+                    availableTiles[index].position = placeSpot;
+                    currentPos = placeSpot;
                     usedTiles.Add(availableTiles[index]);
                     availableTiles.RemoveAt(index);
                     amount--;
@@ -90,7 +90,7 @@ public class PoissionDiscSampling : MonoBehaviour
     public bool AllowedPlaceDistance(List<TileInformation> points, Vector3 checkPos, Vector3 pos, float radius)
     {
         TileInformation tile = points[GetAreaPositionindex(points, checkPos)];
-        return Vector3.Distance(new Vector3(pos.x, tile.spawnedObject.transform.position.y, pos.z), tile.spawnedObject.transform.position) >= radius;
+        return Vector3.Distance(new Vector3(pos.x, tile.position.y, pos.z), tile.position) >= radius * 2;
     }
 
     public int GetAreaPositionindex(List<TileInformation> points, Vector3 position)
@@ -128,6 +128,6 @@ public class PoissionDiscSampling : MonoBehaviour
     {
         public Vector3 minPos, maxpos;
         public bool taken = false;
-        public GameObject spawnedObject;
+        public Vector3 position;
     }
 }
