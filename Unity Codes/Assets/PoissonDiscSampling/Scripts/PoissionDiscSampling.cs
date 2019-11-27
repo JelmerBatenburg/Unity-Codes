@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class PoissionDiscSampling : MonoBehaviour
 {
+    [Header("Location and Size")]
     public Vector2Int range;
     public float tileSize;
-    TileInformation[] nodes = new TileInformation[0];
+
+    [Header("Settings")]
     public int tries;
     public float placementDelay;
-    public GameObject[] previewObjects;
+    TileInformation[] nodes = new TileInformation[0];
+
+    [Header("PreviewSettings")]
     public int placeAmount;
+    public GameObject[] previewObjects;
     public float offsetRange;
 
     public void Start()
@@ -29,12 +34,15 @@ public class PoissionDiscSampling : MonoBehaviour
                 RaycastHit hit = new RaycastHit();
                 float minX = (-(range.x / 2) + x) * tileSize + transform.position.x;
                 float minZ = (-(range.y / 2) + z) * tileSize + transform.position.z;
+
                 newTile.minPos = new Vector3(minX, transform.position.y, minZ);
                 if (Physics.Raycast(newTile.minPos, Vector3.down, out hit, Mathf.Infinity))
                     newTile.minPos.y = hit.point.y;
+
                 newTile.maxpos = new Vector3(minX + tileSize, transform.position.y, minZ + tileSize);
                 if (Physics.Raycast(newTile.maxpos, Vector3.down, out hit, Mathf.Infinity))
                     newTile.maxpos.y = hit.point.y;
+
                 tiles.Add(newTile);
             }
         nodes = tiles.ToArray();
@@ -80,8 +88,6 @@ public class PoissionDiscSampling : MonoBehaviour
                     amount--;
                     break;
                 }
-                else
-                    Debug.Log("Too close");
             }
             yield return new WaitForSeconds(placementDelay);
         }
