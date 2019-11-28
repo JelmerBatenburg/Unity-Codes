@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 69898390}
   - component: {fileID: 69898389}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PoissonDIscSampling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,11 +153,11 @@ MonoBehaviour:
   tileSize: 3
   tries: 3
   placementDelay: 0.001
+  placeAmount: 1000
   previewObjects:
   - {fileID: 1293468782778113755, guid: a448a20d2706d5f41937d8fbe86a99d1, type: 3}
   - {fileID: 4809052125984495178, guid: 5d791cb978e50724d8434a5532afd8d6, type: 3}
   - {fileID: 2144741005803212816, guid: 73b05d386ba909642bc43c5f132823da, type: 3}
-  placeAmount: 1000
   offsetRange: 6
 --- !u!4 &69898390
 Transform:
