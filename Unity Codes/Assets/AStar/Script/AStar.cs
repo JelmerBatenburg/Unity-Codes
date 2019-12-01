@@ -74,50 +74,10 @@ public class AStar : MonoBehaviour
 
         while(currentNode != GetClosestTileIndex(endPos))
         {
-            List<int> currentNeighboars = new List<int>();
-            for (int x = -1; x <= 1; x++)
-                for (int y = -1; y <= 1; y++)
-                    for (int z = -1; z <= 1; z++)
-                        if (x == 0 && y == 0 && z == 0)
-                        {
-
-                        }
-                        else
-                        {
-                            int value = GetClosestTileIndex(nodes[currentNode].position + new Vector3(x, y, z));
-                            if (value <= nodes.Count && value >= 0 && !pathNodes.Contains(value) && !badPathNodes.Contains(value) && nodes[value].walkable)
-                            {
-                                pathNodes.Add(value);
-                                nodes[value].arrivalCost = nodes[currentNode].arrivalCost + 1;
-                                nodes[value].distanceCost = Vector3.Distance(nodes[value].position, endPos);
-                                Debug.Log(nodes[value].totalCost);
-                                currentNeighboars.Add(value);
-                            }
-                        }
-
-            if (currentNeighboars.Count == 0)
-            {
-                badPathNodes.Add(currentNode);
-                badPathNodes.Remove(currentNode);
-            }
-
-            if (pathNodes.Count == 0)
-                yield return null;
-
-            currentNode = GetNewPoint(pathNodes);
-            yield return null;
+            
         }
-        Debug.Log("FoundPath");
-        yield return null;
-    }
 
-    public int GetNewPoint(List<int> _pathNodes)
-    {
-        int lowest = 0;
-        for (int i = 0; i < _pathNodes.Count; i++)
-            if (nodes[_pathNodes[i]].totalCost < nodes[_pathNodes[lowest]].totalCost)
-                lowest = i;
-        return lowest;
+        yield return null;
     }
 
     public int GetClosestTileIndex(Vector3 pos)
