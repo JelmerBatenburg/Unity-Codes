@@ -7,28 +7,17 @@ public class AStar : MonoBehaviour
     [Header("GridArea")]
     public float tileSize;
     public Vector3 area;
-    public List<Node> nodes = new List<Node>();
+    [Header("Detection")]
     public LayerMask checkMask;
-    Vector3 nodeAmount;
     public float floorCheckHeight;
-    public bool test;
-    public Transform testStartPos, testEndpos;
-    public float checkValue;
-    public Vector3[] finalPath = new Vector3[0];
+
+    public List<Node> nodes = new List<Node>();
+    Vector3 nodeAmount;
 
     public void Start()
     {
         GenerateGrid();
         GetWalkableTiles(floorCheckHeight);
-    }
-
-    public void Update()
-    {
-        if (test)
-        {
-            finalPath = GetPath(testStartPos.position, testEndpos.position);
-            test = false;
-        }
     }
 
     public void GenerateGrid()
@@ -180,8 +169,6 @@ public class AStar : MonoBehaviour
             Gizmos.DrawWireCube(node.position, Vector3.one * tileSize);
         }
         Gizmos.color = Color.red;
-        foreach (Vector3 pos in finalPath)
-            Gizmos.DrawSphere(pos, tileSize / 2f);
     }
 
     public class SurroundingReturnInfo
