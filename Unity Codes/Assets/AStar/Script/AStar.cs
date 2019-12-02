@@ -75,24 +75,29 @@ public class AStar : MonoBehaviour
         while (currentNode != endIndex)
         {
             closedList.Add(currentNode);
-            int[] neighboringNodes = GetSurroundingNodes(currentNode);
-            foreach(int node in neighboringNodes)
+            SurroundingReturnInfo[] neighboringNodes = GetSurroundingNodes(currentNode);
+            foreach(SurroundingReturnInfo node in neighboringNodes)
             {
-                if (closedList.Contains(node))
+                if (closedList.Contains(node.index))
                     continue;
 
-                if (pathNodes.Contains(node) && nodes[node].arrivalCost <= nodes[currentNode].arrivalCost + 1)
+                float NodeCost = 1 + (0.4f * (Mathf.Abs(node.offset.x) + Mathf.Abs(node.offset.y) + Mathf.Abs(node.offset.z) - 1));
+
+                if (pathNodes.Contains(node.index) && nodes[node.index].arrivalCost <= nodes[currentNode].arrivalCost + NodeCost)
                 {
-                    nodes[node].arrivalCost = nodes[currentNode].arrivalCost + 1;
+                    nodes[node.index].arrivalCost = nodes[currentNode].arrivalCost + NodeCost;
                     continue;
                 }
 
-                nodes[node].arrivalCost = nodes[currentNode].arrivalCost + 1;
-                nodes[node].distanceCost = Vector3.Distance(nodes[endIndex].position, nodes[node].position);
-                pathNodes.Add(node);
+                nodes[node.index].arrivalCost = nodes[currentNode].arrivalCost + NodeCost;
+                nodes[node.index].distanceCost = Vector3.Distance(nodes[endIndex].position, nodes[node.index].position);
+                pathNodes.Add(node.index);
             }
             if (pathNodes.Count == closedList.Count)
+            {
+                Debug.Log("Failed");
                 break;
+            }
 
             currentNode = GetLowestCost(pathNodes.ToArray(), closedList);
         }
@@ -109,12 +114,12 @@ public class AStar : MonoBehaviour
         {
             pathNodes.Add(nodes[currentNode].position);
 
-            int[] neighbouringNodes = GetSurroundingNodes(currentNode);
+            SurroundingReturnInfo[] neighbouringNodes = GetSurroundingNodes(currentNode);
             int lowest = 0;
-            foreach (int node in neighbouringNodes)
-                if (usedTiles.Contains(node))
-                    if (lowest == 0 || nodes[node].arrivalCost <= nodes[lowest].arrivalCost)
-                        lowest = node;
+            foreach (SurroundingReturnInfo node in neighbouringNodes)
+                if (usedTiles.Contains(node.index))
+                    if (lowest == 0 || nodes[node.index].arrivalCost <= nodes[lowest].arrivalCost)
+                        lowest = node.index;
 
             currentNode = lowest;
         }
@@ -127,28 +132,27 @@ public class AStar : MonoBehaviour
         int lowest = 0;
 
         foreach (int node in checkNodes)
-            if (nodes[lowest].totalCost == 0 || nodes[node].totalCost <= nodes[lowest].totalCost && !closedNodes.Contains(node))
+            if (nodes[lowest].totalCost == 0 && !closedNodes.Contains(node) || nodes[node].totalCost <= nodes[lowest].totalCost && !closedNodes.Contains(node))
                 lowest = node;
 
         return lowest;
     }
 
-    public int[] GetSurroundingNodes(int node)
+    public SurroundingReturnInfo[] GetSurroundingNodes(int node)
     {
-        int yOffset = Mathf.RoundToInt(nodeAmount.x);
-        int zOffset = Mathf.RoundToInt(nodeAmount.x * nodeAmount.y);
-        List<int> checkNodes = new List<int>();
+        int yOffset = Mathf.RoundToInt(nodeAmount.z);
+        int xOffset = Mathf.RoundToInt(nodeAmount.z * nodeAmount.y);
+        List<SurroundingReturnInfo> checkNodes = new List<SurroundingReturnInfo>();
 
         for (int x = -1; x <= 1; x++)
             for (int y = -1; y <= 1; y++)
                 for (int z = -1; z <= 1; z++)
                 {
-                    if ((Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(z)) == 3)
+                    if ((Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(z)) == 0 || (Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(z)) == 3)
                         continue;
-
-                    int checkIndex = node + x + (y * yOffset) + (z * zOffset);
+                    int checkIndex = node + (x * xOffset) + (y * yOffset) + z;
                     if (checkIndex < nodes.Count && checkIndex >= 0 && nodes[checkIndex].walkable && Vector3.Distance(nodes[node].position, nodes[checkIndex].position) <= (tileSize * 3))
-                        checkNodes.Add(checkIndex);
+                        checkNodes.Add(new SurroundingReturnInfo(checkIndex, new Vector3(x, y, z)));
                 }
         return checkNodes.ToArray();
     }
@@ -178,6 +182,17 @@ public class AStar : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Vector3 pos in finalPath)
             Gizmos.DrawSphere(pos, tileSize / 2f);
+    }
+
+    public class SurroundingReturnInfo
+    {
+        public int index;
+        public Vector3 offset;
+        public SurroundingReturnInfo(int _index, Vector3 _offset)
+        {
+            index = _index;
+            offset = _offset;
+        }
     }
 
     public class Node
