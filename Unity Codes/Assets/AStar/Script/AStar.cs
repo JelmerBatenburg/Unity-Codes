@@ -12,6 +12,8 @@ public class AStar : MonoBehaviour
     public float floorCheckHeight;
 
     public List<Node> nodes = new List<Node>();
+    public List<Vector3> debugNodes = new List<Vector3>();
+    public float debugFloat;
     Vector3 nodeAmount;
 
     public void Start()
@@ -113,6 +115,7 @@ public class AStar : MonoBehaviour
             currentNode = lowest;
         }
         pathNodes.Reverse();
+        debugNodes = pathNodes;
         return pathNodes.ToArray();
     }
 
@@ -163,12 +166,16 @@ public class AStar : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, area);
         foreach(Node node in nodes)
         {
-            Gizmos.color = node.obstructed ? Color.black : new Color(1, 1, 1, 0.1f);
+            Gizmos.color = node.obstructed ? Color.black : new Color(1, 1, 1, debugFloat);
             if (node.walkable)
                 Gizmos.DrawSphere(node.position, tileSize / 2);
             Gizmos.DrawWireCube(node.position, Vector3.one * tileSize);
         }
         Gizmos.color = Color.red;
+
+        /*Gizmos.color = Color.red;
+        for (int i = 0; i < debugNodes.Count - 1; i++)
+            Gizmos.DrawLine(debugNodes[i], debugNodes[i + 1]);*/
     }
 
     public class SurroundingReturnInfo

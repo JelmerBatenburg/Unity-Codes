@@ -468,7 +468,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856912584}
   m_LocalRotation: {x: 0.43616927, y: 0.10220726, z: 0.14117356, w: 0.882825}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: -24.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -517,12 +517,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c7ef60c57b0ad4592b395dba901022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 0.42
+  tileSize: 0.6
   area: {x: 20, y: 12, z: 20}
   checkMask:
     serializedVersion: 2
     m_Bits: 4294967295
   floorCheckHeight: 2
+  debugNodes: []
+  debugFloat: 0.01
 --- !u!1 &1101893042
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,13 +694,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199816303}
-  m_LocalRotation: {x: 0.202968, y: 0.33874115, z: -0.07508699, w: 0.915653}
-  m_LocalPosition: {x: -8.68, y: 7.6, z: -9.52}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -8.68, y: 0.47, z: -0.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 24.997002, y: 40.603, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1199816307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +881,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284506231}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -24.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
